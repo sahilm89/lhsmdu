@@ -12,6 +12,6 @@ setup(name='lhsmdu',
       author='Sahil Moza',
       author_email='sahil.moza@gmail.com',
       license='MIT',
-      packages=['lhs-mdu'],
+      packages=['lhsmdu'],
       install_requires=[ 'numpy', ],
       zip_safe=False)

@@ -1,24 +1,20 @@
 # To create an orthogonal Latin hypercube with uniform sampling of parameters.
 # Author: Sahil Moza
-# Date: Jan 20, 2016
+# Date: Jan 21, 2016
 
-''' This is an implementation of Latin Hypercube Sampling with Multi-Dimensional Uniformity (LHS-MDU) from Deutsch and Deutsch, "Latin hypercube sampling with multidimensional uniformity." (2012) 
+''' This is an implementation of Latin Hypercube Sampling with Multi-Dimensional Uniformity (LHS-MDU) from Deutsch and Deutsch, "Latin hypercube sampling with multidimensional uniformity", Journal of Statistical Planning and Inference 142 (2012) , 763-772 
 
 ***Currently only for independent variables***
 '''
 
-import numpy.random as random
 from numpy.linalg import norm
-from numpy import matrix, zeros, triu_indices, sum, argsort, ravel, max
+from numpy import random, matrix, zeros, triu_indices, sum, argsort, ravel, max
 from numpy import min as minimum
 
-## Default variables #####
-#numDimensions = 2 ## Number of variables (N)
-#numSamples = 50 ## Number of samples (L)
+##### Default variables #####
 scalingFactor = 5 ## number > 1 (M) Chosen as 5 as suggested by the paper (above this no improvement.
 numToAverage = 2 ## Number of nearest neighbours to average, as more does not seem to add more information (from paper).
 randomSeed = 42 ## Seed for the random number generator 
-plotFlag = 0
 
 random.seed(randomSeed) ## Seeding the random number generator.
 

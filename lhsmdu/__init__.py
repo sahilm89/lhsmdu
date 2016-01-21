@@ -7,7 +7,11 @@
 ***Currently only for independent variables***
 '''
 
-import numpy as np
+import numpy.random as random
+from numpy.linalg import norm
+from numpy import matrix, zeros, triu_indices, sum, argsort, ravel, max
+from numpy import min as minimum
+
 
 ## Default variables #####
 #numDimensions = 2 ## Number of variables (N)
@@ -17,27 +21,27 @@ numToAverage = 2 ## Number of nearest neighbours to average, as more does not se
 randomSeed = 42 ## Seed for the random number generator 
 plotFlag = 0
 
-np.random.seed(randomSeed) ## Seeding the random number generator.
+random.seed(randomSeed) ## Seeding the random number generator.
 
 def createRandomStandardUniformMatrix(nrow, ncol):
     ''' Creates a matrix with elements drawn from a uniform distribution in [0,1]'''
-    rows = [ [np.random.random() for i in range(ncol)] for j in range(nrow)]
-    return np.matrix(rows)
+    rows = [ [random.random() for i in range(ncol)] for j in range(nrow)]
+    return matrix(rows)
 
-def findUpperTriangularColumnDistanceVector(matrix, ncol):
+def findUpperTriangularColumnDistanceVector(inputMatrix, ncol):
     ''' Finds the 1-D upper triangular euclidean distance vector for the columns of a matrix.'''
-    assert ncol == matrix.shape[1]
+    assert ncol == inputMatrix.shape[1]
     distance_1D = []
     for i in range(ncol-1):
         for j in range(i+1,ncol):
-            realization_i, realization_j  = matrix[:,i], matrix[:,j]
-            distance_1D.append(np.linalg.norm(realization_i - realization_j))
+            realization_i, realization_j  = inputMatrix[:,i], inputMatrix[:,j]
+            distance_1D.append(norm(realization_i - realization_j))
     return distance_1D
 
 def createSymmetricDistanceMatrix(distance, nrow):
     ''' Creates a symmetric distance matrix from an upper triangular 1D distance vector.'''
-    distMatrix = np.zeros((nrow,nrow))
-    indices = np.triu_indices(nrow,k=1)
+    distMatrix = zeros((nrow,nrow))
+    indices = triu_indices(nrow,k=1)
     distMatrix[indices] = distance
     distMatrix[(indices[1], indices[0])] = distance # Making symmetric matrix
     return distMatrix
@@ -60,7 +64,7 @@ def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage 
     
     while(len(averageDistance)>numSamples):
         for rowNum in averageDistance.keys():
-            averageDistance.update( {rowNum: np.sum( sorted( distMatrix[rowNum,averageDistance.keys()])[:numToAverage+1])/numToAverage}) # +1 to remove the zero index, appending averageDistance to list
+            averageDistance.update( {rowNum: sum( sorted( distMatrix[rowNum,averageDistance.keys()])[:numToAverage+1])/numToAverage}) # +1 to remove the zero index, appending averageDistance to list
         indexToDelete = min(averageDistance, key=averageDistance.get)
         del averageDistance[indexToDelete]
     
@@ -74,13 +78,13 @@ def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage 
     
     # Creating Matrix of Samples from the strata ordering.
     for row in range(numDimensions):
-        sortedIndicesOfStrata = np.argsort(np.ravel(matrixOfStrata[row,:]))
+        sortedIndicesOfStrata = argsort(ravel(matrixOfStrata[row,:]))
     
         # Generating stratified samples
-        newSamples =  [ (float(x)/numSamples) + (np.random.random()/numSamples) for x in sortedIndicesOfStrata ]
+        newSamples =  [ (float(x)/numSamples) + (random.random()/numSamples) for x in sortedIndicesOfStrata ]
         matrixOfSamples.append(newSamples)
     
-    assert np.min(matrixOfSamples)>=0.
-    assert np.max(matrixOfSamples)<=1.
+    assert minimum(matrixOfSamples)>=0.
+    assert max(matrixOfSamples)<=1.
     
     return matrixOfSamples

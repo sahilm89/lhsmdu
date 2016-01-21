@@ -12,7 +12,6 @@ from numpy.linalg import norm
 from numpy import matrix, zeros, triu_indices, sum, argsort, ravel, max
 from numpy import min as minimum
 
-
 ## Default variables #####
 #numDimensions = 2 ## Number of variables (N)
 #numSamples = 50 ## Number of samples (L)

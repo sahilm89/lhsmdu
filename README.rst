@@ -1,7 +1,10 @@
 LHS-MDU
 --------
 
+Basics
+======
 This is a package for generating latin hypercube samples with multi-dimensional uniformity.
+
 To use, simply do::
 
     >>> import lhsmdu 
@@ -60,5 +63,18 @@ Alternatively, you can choose to get new strata each time, and see the sampling 
     >>> plt.scatter(r[0], r[1], c="y", label="sample 4") 
     >>> plt.grid()
     >>> plt.show() 
+
+===========================================================================================
+
+Sampling from arbitrary CDFs
+=======================
+
+After uniformly distributed samples have been generated from LHSMDU, using inverse tranform sampling. In this, the CDF [0,1] of the distribution is inverted, and then data points corresponding to the uniformly sampled points are picked up. To do this, you must have a distribution taken from scipy.stats, following is anexample for normal distribution. You can also use frozen distributions (with preset loc and scale parameters)::
+
+    >>> import scipy.stats.distributions as ssd
+    >>> p = ssd.norm
+    >>> new_samples = lhsmdu.inverseTransformSample(p, k[0])
+    >>> plt.hist(lhsmdu.inverseTransformSample(p, k[0]))
+    >>> plt.show()
 
 

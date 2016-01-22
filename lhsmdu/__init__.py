@@ -10,6 +10,8 @@
 from numpy.linalg import norm
 from numpy import random, matrix, zeros, triu_indices, sum, argsort, ravel, max
 from numpy import min as minimum
+from scipy.stats import rv_continuous, rv_discrete
+from scipy.stats._distn_infrastructure import rv_frozen
 
 ##### Default variables #####
 scalingFactor = 5 ## number > 1 (M) Chosen as 5 as suggested by the paper (above this no improvement.
@@ -65,7 +67,36 @@ def eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples,
     assert numDimensions == StrataMatrix.shape[0]
  
     return StrataMatrix
- 
+
+def inverseTransformSample(distribution, uniformSamples):
+    ''' This function lets you convert from a standard uniform sample [0,1] to
+    a sample from an arbitrary distribution. This is done by taking the cdf [0,1] of 
+    the arbitrary distribution, and calculating its inverse to picking the sample."
+    '''
+    assert (isinstance(distribution, rv_continuous) or isinstance(distribution, rv_discrete) or isinstance(distribution,rv_frozen))
+    newSamples = distribution.ppf(uniformSamples)
+    return newSamples
+    
+def resample():
+    ''' Resampling function from the same strata'''
+    numDimensions = matrixOfStrata.shape[0]
+    numSamples = matrixOfStrata.shape[1]
+
+    matrixOfSamples = []
+    
+    # Creating Matrix of Samples from the strata ordering.
+    for row in range(numDimensions):
+        sortedIndicesOfStrata = argsort(ravel(matrixOfStrata[row,:]))
+    
+        # Generating stratified samples
+        newSamples =  [ (float(x)/numSamples) + (random.random()/numSamples) for x in sortedIndicesOfStrata ]
+        matrixOfSamples.append(newSamples)
+    
+    assert minimum(matrixOfSamples)>=0.
+    assert max(matrixOfSamples)<=1.
+    
+    return matrixOfSamples
+
 def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage, randomSeed=randomSeed ):
     ''' Main LHS-MDU sampling function '''
 
@@ -84,25 +115,5 @@ def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage 
     matrixOfStrata = eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples)
 
     matrixOfSamples = resample() 
-    
-    return matrixOfSamples
-
-def resample():
-    ''' Resampling function from the same strata'''
-    numDimensions = matrixOfStrata.shape[0]
-    numSamples = matrixOfStrata.shape[1]
-
-    matrixOfSamples = []
-    
-    # Creating Matrix of Samples from the strata ordering.
-    for row in range(numDimensions):
-        sortedIndicesOfStrata = argsort(ravel(matrixOfStrata[row,:]))
-    
-        # Generating stratified samples
-        newSamples =  [ (float(x)/numSamples) + (random.random()/numSamples) for x in sortedIndicesOfStrata ]
-        matrixOfSamples.append(newSamples)
-    
-    assert minimum(matrixOfSamples)>=0.
-    assert max(matrixOfSamples)<=1.
     
     return matrixOfSamples

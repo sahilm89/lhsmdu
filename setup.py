@@ -13,5 +13,5 @@ setup(name='lhsmdu',
       author_email='sahil.moza@gmail.com',
       license='MIT',
       packages=['lhsmdu'],
-      install_requires=[ 'numpy', ],
+      install_requires=[ 'numpy','scipy' ],
       zip_safe=False)

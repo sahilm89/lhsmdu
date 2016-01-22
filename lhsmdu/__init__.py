@@ -41,19 +41,14 @@ def createSymmetricDistanceMatrix(distance, nrow):
     distMatrix[(indices[1], indices[0])] = distance # Making symmetric matrix
     return distMatrix
 
-def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage, randomSeed=randomSeed ):
-    ''' Main LHS-MDU sampling function '''
-    ### Number of realizations (I) = Number of samples(L) x scale for oversampling (M)
-    numRealizations = scalingFactor*numSamples ## Number of realizations (I)
-    ### Creating NxI realization matrix
-    matrixOfRealizations =  createRandomStandardUniformMatrix(numDimensions, numRealizations)
-    
-    ### Finding distances between column vectors of the matrix to create a distance matrix.
-    distance_1D = findUpperTriangularColumnDistanceVector(matrixOfRealizations, numRealizations)
-    
+def eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples, numToAverage = numToAverage):
+    ''' Eliminating realizations using average distance measure to give Strata '''
+
+    numDimensions = matrixOfRealizations.shape[0]
+    numRealizations = matrixOfRealizations.shape[1]
     ## Creating a symmetric IxI distance matrix from the triangular matrix 1D vector.
     distMatrix = createSymmetricDistanceMatrix(distance_1D, numRealizations)
-    
+ 
     ## Finding columns from the realization matrix by elimination of nearest neighbours L strata are left.
     averageDistance = {i:0 for i in range(numRealizations)}
     
@@ -64,11 +59,39 @@ def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage 
         del averageDistance[indexToDelete]
     
     # Creating the strata matrix to draw samples from.
-    matrixOfStrata = matrixOfRealizations[:,averageDistance.keys()]
+    StrataMatrix = matrixOfRealizations[:,averageDistance.keys()]
+
+    assert numSamples == StrataMatrix.shape[1]
+    assert numDimensions == StrataMatrix.shape[0]
+ 
+    return StrataMatrix
+ 
+def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage, randomSeed=randomSeed ):
+    ''' Main LHS-MDU sampling function '''
+
+    ### Number of realizations (I) = Number of samples(L) x scale for oversampling (M)
+    numRealizations = scalingFactor*numSamples ## Number of realizations (I)
+    ### Creating NxI realization matrix
+    matrixOfRealizations =  createRandomStandardUniformMatrix(numDimensions, numRealizations)
     
-    assert numSamples == matrixOfStrata.shape[1]
-    assert numDimensions == matrixOfStrata.shape[0]
+    ### Finding distances between column vectors of the matrix to create a distance matrix.
+    distance_1D = findUpperTriangularColumnDistanceVector(matrixOfRealizations, numRealizations)
     
+    ## Eliminating columns from the realization matrix, using the distance measure  to get a strata
+    ## matrix with number of columns as number of samples requried.
+
+    global matrixOfStrata
+    matrixOfStrata = eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples)
+
+    matrixOfSamples = resample() 
+    
+    return matrixOfSamples
+
+def resample():
+    ''' Resampling function from the same strata'''
+    numDimensions = matrixOfStrata.shape[0]
+    numSamples = matrixOfStrata.shape[1]
+
     matrixOfSamples = []
     
     # Creating Matrix of Samples from the strata ordering.

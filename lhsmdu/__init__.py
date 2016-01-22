@@ -95,7 +95,7 @@ def resample():
     assert minimum(matrixOfSamples)>=0.
     assert max(matrixOfSamples)<=1.
     
-    return np.matrix(matrixOfSamples)
+    return matrix(matrixOfSamples)
 
 def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage, randomSeed=randomSeed ):
     ''' Main LHS-MDU sampling function '''

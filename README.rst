@@ -69,7 +69,7 @@ Alternatively, you can choose to get new strata each time, and see the sampling 
 Sampling from arbitrary CDFs
 =======================
 
-After uniformly distributed samples have been generated from LHSMDU, using inverse tranform sampling. In this, the CDF [0,1] of the distribution is inverted, and then data points corresponding to the uniformly sampled points are picked up. To do this, you must have a distribution taken from scipy.stats, following is anexample for normal distribution. You can also use frozen distributions (with preset loc and scale parameters)::
+After uniformly distributed samples have been generated from LHSMDU, you can convert these to samples from arbitrary distributions using inverse tranform sampling. In this, the CDF [0,1] of the distribution of interest is inverted, and then data points corresponding to the uniformly sampled points are picked up. To do this, you must have a `rv_contiuous` or `rv_discrete` distribution instance taken from scipy.stats. You can also use frozen distributions (after setting loc and scale parameters). Following is an example for normal distribution.::
 
     >>> import scipy.stats.distributions as ssd
     >>> p = ssd.norm

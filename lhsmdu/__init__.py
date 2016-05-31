@@ -11,7 +11,7 @@ from numpy.linalg import norm
 from numpy import random, matrix, zeros, triu_indices, sum, argsort, ravel, max
 from numpy import min as minimum
 from scipy.stats import rv_continuous, rv_discrete
-from scipy.stats._distn_infrastructure import rv_frozen
+from scipy.stats.distributions import rv_frozen
 
 ##### Default variables #####
 scalingFactor = 5 ## number > 1 (M) Chosen as 5 as suggested by the paper (above this no improvement.
@@ -55,17 +55,18 @@ def eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples,
     averageDistance = {i:0 for i in range(numRealizations)}
     
     while(len(averageDistance)>numSamples):
-        for rowNum in averageDistance.keys():
-            averageDistance.update( {rowNum: sum( sorted( distMatrix[rowNum,averageDistance.keys()])[:numToAverage+1])/numToAverage}) # +1 to remove the zero index, appending averageDistance to list
+        for rowNum in sorted(list(averageDistance.keys())):
+            meanAvgDist = sum( sorted( distMatrix[ rowNum, sorted(list(averageDistance.keys()))])[:numToAverage+1])/numToAverage
+            averageDistance.update( {rowNum: meanAvgDist }) # +1 to remove the zero index, appending averageDistance to list
         indexToDelete = min(averageDistance, key=averageDistance.get)
         del averageDistance[indexToDelete]
     
     # Creating the strata matrix to draw samples from.
-    StrataMatrix = matrixOfRealizations[:,averageDistance.keys()]
+    StrataMatrix = matrixOfRealizations[:,sorted(list(averageDistance.keys()))]
 
     assert numSamples == StrataMatrix.shape[1]
     assert numDimensions == StrataMatrix.shape[0]
- 
+    print ( StrataMatrix )
     return StrataMatrix
 
 def inverseTransformSample(distribution, uniformSamples):

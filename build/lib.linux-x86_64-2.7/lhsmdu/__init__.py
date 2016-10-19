@@ -18,7 +18,6 @@ scalingFactor = 5 ## number > 1 (M) Chosen as 5 as suggested by the paper (above
 numToAverage = 2 ## Number of nearest neighbours to average, as more does not seem to add more information (from paper).
 randomSeed = 42 ## Seed for the random number generator 
 
-random.seed(randomSeed) ## Seeding the random number generator.
 
 def createRandomStandardUniformMatrix(nrow, ncol):
     ''' Creates a matrix with elements drawn from a uniform distribution in [0,1]'''
@@ -66,7 +65,7 @@ def eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples,
 
     assert numSamples == StrataMatrix.shape[1]
     assert numDimensions == StrataMatrix.shape[0]
-    print ( StrataMatrix )
+    #print ( StrataMatrix )
     return StrataMatrix
 
 def inverseTransformSample(distribution, uniformSamples):
@@ -100,6 +99,7 @@ def resample():
 
 def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage, randomSeed=randomSeed ):
     ''' Main LHS-MDU sampling function '''
+    random.seed(randomSeed) ## Seeding the random number generator.
 
     ### Number of realizations (I) = Number of samples(L) x scale for oversampling (M)
     numRealizations = scalingFactor*numSamples ## Number of realizations (I)

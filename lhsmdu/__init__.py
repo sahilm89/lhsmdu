@@ -7,6 +7,7 @@
 ***Currently only for independent variables***
 '''
 
+from __future__ import absolute_import, division, print_function, unicode_literals
 from numpy.linalg import norm
 from numpy import random, matrix, zeros, triu_indices, sum, argsort, ravel, max
 from numpy import min as minimum
@@ -54,14 +55,14 @@ def eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples,
     averageDistance = {i:0 for i in range(numRealizations)}
     
     while(len(averageDistance)>numSamples):
-        for rowNum in sorted(list(averageDistance.keys())):
-            meanAvgDist = sum( sorted( distMatrix[ rowNum, sorted(list(averageDistance.keys()))])[:numToAverage+1])/numToAverage
+        for rowNum in sorted(averageDistance.keys()):
+            meanAvgDist = sum( sorted( distMatrix[ rowNum, sorted(averageDistance.keys())])[:numToAverage+1])/numToAverage
             averageDistance.update( {rowNum: meanAvgDist }) # +1 to remove the zero index, appending averageDistance to list
         indexToDelete = min(averageDistance, key=averageDistance.get)
         del averageDistance[indexToDelete]
     
     # Creating the strata matrix to draw samples from.
-    StrataMatrix = matrixOfRealizations[:,sorted(list(averageDistance.keys()))]
+    StrataMatrix = matrixOfRealizations[:,sorted(averageDistance.keys())]
 
     assert numSamples == StrataMatrix.shape[1]
     assert numDimensions == StrataMatrix.shape[0]

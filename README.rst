@@ -76,5 +76,7 @@ After uniformly distributed samples have been generated from LHSMDU, you can con
     >>> plt.hist(lhsmdu.inverseTransformSample(p, k[0]))
     >>> plt.show()
 
-
-You can cite this repo with this doi: [![DOI](https://zenodo.org/badge/50098549.svg)](https://zenodo.org/badge/latestdoi/50098549)
+Citing this repository
+=======================
+To cite, please cite both the original paper from Deutsch and Deutsch: http://dx.doi.org/10.1016%2Fj.jspi.2011.09.016.
+and the repository: https://doi.org/10.5281/zenodo.2578781

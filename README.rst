@@ -77,4 +77,4 @@ After uniformly distributed samples have been generated from LHSMDU, you can con
     >>> plt.show()
 
 
-You can cite this repo with this doi: <a href="https://zenodo.org/badge/latestdoi/50098549"><img src="https://zenodo.org/badge/50098549.svg" alt="DOI"></a>
+You can cite this repo with this doi: [![DOI](https://zenodo.org/badge/50098549.svg)](https://zenodo.org/badge/latestdoi/50098549)

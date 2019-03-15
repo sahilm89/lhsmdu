@@ -1,5 +1,13 @@
 LHS-MDU
 --------
+
+Installation
+============
+
+To install, just do::
+
+    >>> pip install lhsmdu
+    
 Basics
 ======
 This is a package for generating latin hypercube samples with multi-dimensional uniformity.

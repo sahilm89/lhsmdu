@@ -6,7 +6,7 @@ Installation
 
 To install, just do::
 
-    >>> pip install lhsmdu
+    $ pip install lhsmdu
     
 Basics
 ======

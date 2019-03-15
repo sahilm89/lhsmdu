@@ -4,9 +4,15 @@ LHS-MDU
 Installation
 ============
 
-To install, just do::
+You can install lhsmdu using pip::
 
     $ pip install lhsmdu
+    
+Alternatively, you can clone on github and then install the package locally
+
+    $ git clone git@github.com:sahilm89/lhsmdu.git
+    $ cd lhsmdu
+    $ python setup.py install
     
 Basics
 ======

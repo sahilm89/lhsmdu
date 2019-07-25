@@ -18,13 +18,14 @@ from scipy.stats.distributions import rv_frozen
 scalingFactor = 5 ## number > 1 (M) Chosen as 5 as suggested by the paper (above this no improvement.
 numToAverage = 2 ## Number of nearest neighbours to average, as more does not seem to add more information (from paper).
 randomSeed = 42 ## Seed for the random number generator 
+random.seed(randomSeed) ## Seeding the random number generator.
 
 def setRandomSeed(newRandomSeed):
     global randomSeed
     randomSeed = newRandomSeed
+    random.seed(randomSeed) ## Seeding the random number generator.
 
 def createRandomStandardUniformMatrix(nrow, ncol):
-    random.seed(randomSeed) ## Seeding the random number generator.
     ''' Creates a matrix with elements drawn from a uniform distribution in [0,1]'''
     rows = [ [random.random() for i in range(ncol)] for j in range(nrow)]
     return matrix(rows)
@@ -84,7 +85,6 @@ def inverseTransformSample(distribution, uniformSamples):
     
 def resample():
 
-    random.seed(randomSeed) ## Seeding the random number generator.
     ''' Resampling function from the same strata'''
     numDimensions = matrixOfStrata.shape[0]
     numSamples = matrixOfStrata.shape[1]

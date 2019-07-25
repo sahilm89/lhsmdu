@@ -19,8 +19,8 @@ scalingFactor = 5 ## number > 1 (M) Chosen as 5 as suggested by the paper (above
 numToAverage = 2 ## Number of nearest neighbours to average, as more does not seem to add more information (from paper).
 randomSeed = 42 ## Seed for the random number generator 
 
-
-def createRandomStandardUniformMatrix(nrow, ncol):
+def createRandomStandardUniformMatrix(nrow, ncol, randomSeed=randomSeed):
+    random.seed(randomSeed) ## Seeding the random number generator.
     ''' Creates a matrix with elements drawn from a uniform distribution in [0,1]'''
     rows = [ [random.random() for i in range(ncol)] for j in range(nrow)]
     return matrix(rows)
@@ -78,7 +78,9 @@ def inverseTransformSample(distribution, uniformSamples):
     newSamples = distribution.ppf(uniformSamples)
     return newSamples
     
-def resample():
+def resample(randomSeed=randomSeed):
+
+    random.seed(randomSeed) ## Seeding the random number generator.
     ''' Resampling function from the same strata'''
     numDimensions = matrixOfStrata.shape[0]
     numSamples = matrixOfStrata.shape[1]
@@ -100,12 +102,11 @@ def resample():
 
 def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage, randomSeed=randomSeed ):
     ''' Main LHS-MDU sampling function '''
-    random.seed(randomSeed) ## Seeding the random number generator.
 
     ### Number of realizations (I) = Number of samples(L) x scale for oversampling (M)
     numRealizations = scalingFactor*numSamples ## Number of realizations (I)
     ### Creating NxI realization matrix
-    matrixOfRealizations =  createRandomStandardUniformMatrix(numDimensions, numRealizations)
+    matrixOfRealizations =  createRandomStandardUniformMatrix(numDimensions, numRealizations, randomSeed=randomSeed)
     
     ### Finding distances between column vectors of the matrix to create a distance matrix.
     distance_1D = findUpperTriangularColumnDistanceVector(matrixOfRealizations, numRealizations)

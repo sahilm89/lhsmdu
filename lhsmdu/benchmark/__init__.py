@@ -7,4 +7,6 @@ def runtime(numDimensions, numSamples):
     start_time = time()
     m = lhsmdu.sample(numDimensions,numSamples)
     end_time = time()
-    print end_time-start_time
+    return end_time-start_time
+
+print(runtime(3,4))

@@ -85,10 +85,17 @@ Changing the random seed
 You will notice that the strata generated are the same each time you run the program again. This is because the random seed is a global constant set to a default value by design, so that simulations can be replicated. In order to change this behavior, you can set a new random seed using the following code::
 
 
-    >>> randomSeed = 11 # random number of choice 
-    >>> lhsmdu.setRandomSeed(randomSeed) # Latin Hypercube Sampling with multi-dimensional uniformity 
+    >>> randSeed = 11 # random number of choice 
+    >>> lhsmdu.setRandomSeed(randSeed) # Latin Hypercube Sampling with multi-dimensional uniformity 
     >>> lhsmdu.sample(2, 20) # Latin Hypercube Sampling with multi-dimensional uniformity 
 
+Alternatively, you can also set the seed by using sample with a new seed::
+
+    >>> lhsmdu.sample(2, 20, randomSeed=randSeed) # Latin Hypercube Sampling with multi-dimensional uniformity 
+
+To change the random seed in every run, you can set on top of the program::
+
+    >>> lhsmdu.setRandomSeed(None) 
 
 Sampling from arbitrary CDFs
 =======================

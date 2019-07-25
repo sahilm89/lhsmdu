@@ -17,13 +17,13 @@ from scipy.stats.distributions import rv_frozen
 ##### Default variables #####
 scalingFactor = 5 ## number > 1 (M) Chosen as 5 as suggested by the paper (above this no improvement.
 numToAverage = 2 ## Number of nearest neighbours to average, as more does not seem to add more information (from paper).
-randomSeed = 42 ## Seed for the random number generator 
-random.seed(randomSeed) ## Seeding the random number generator.
+randSeed = 42 ## Seed for the random number generator 
+random.seed(randSeed) ## Seeding the random number generator.
 
-def setRandomSeed(newRandomSeed):
-    global randomSeed
-    randomSeed = newRandomSeed
-    random.seed(randomSeed) ## Seeding the random number generator.
+def setRandomSeed(newRandSeed):
+    global randSeed
+    randSeed = newRandSeed
+    random.seed(randSeed) ## Seeding the random number generator.
 
 def createRandomStandardUniformMatrix(nrow, ncol):
     ''' Creates a matrix with elements drawn from a uniform distribution in [0,1]'''
@@ -104,8 +104,11 @@ def resample():
     
     return matrix(matrixOfSamples)
 
-def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage):
+def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage = numToAverage, randomSeed=randSeed):
     ''' Main LHS-MDU sampling function '''
+
+    if not randomSeed == randSeed:
+        setRandSeed(randomSeed)
 
     ### Number of realizations (I) = Number of samples(L) x scale for oversampling (M)
     numRealizations = scalingFactor*numSamples ## Number of realizations (I)

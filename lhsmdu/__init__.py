@@ -108,7 +108,7 @@ def sample(numDimensions, numSamples, scalingFactor=scalingFactor, numToAverage 
     ''' Main LHS-MDU sampling function '''
 
     if not randomSeed == randSeed:
-        setRandSeed(randomSeed)
+        setRandomSeed(randomSeed)
 
     ### Number of realizations (I) = Number of samples(L) x scale for oversampling (M)
     numRealizations = scalingFactor*numSamples ## Number of realizations (I)

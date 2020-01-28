@@ -14,7 +14,7 @@ Alternatively, you can clone on github and then install the package locally::
     $ cd lhsmdu
     $ python setup.py install --user   # for this user only.
     
-or,
+or::
     
     $ pip install git+https://github.com/sahilm89/lhsmdu --user  
     

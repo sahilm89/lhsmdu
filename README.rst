@@ -10,12 +10,18 @@ You can install lhsmdu using pip::
     
 Alternatively, you can clone on github and then install the package locally::
 
-    $ git clone git@github.com:sahilm89/lhsmdu.git
+    $ git clone https://github.com/sahilm89/lhsmdu
     $ cd lhsmdu
-    $ python setup.py install
+    $ python setup.py install --user   # for this user only.
+    
+or,
+    
+    $ pip install git+https://github.com/sahilm89/lhsmdu --user  
+    
     
 Basics
 ======
+
 This is a package for generating latin hypercube samples with multi-dimensional uniformity.
 
 To use, simply do::

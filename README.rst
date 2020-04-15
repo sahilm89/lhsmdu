@@ -122,7 +122,7 @@ After uniformly distributed samples have been generated from LHSMDU, you can con
     >>> import scipy.stats.distributions as ssd
     >>> p = ssd.norm
     >>> new_samples = lhsmdu.inverseTransformSample(p, k[0])
-    >>> plt.hist(new_samples)
+    >>> plt.hist(new_samples[0])
     >>> plt.show()
 
 Citing this repository

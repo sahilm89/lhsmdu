@@ -26,6 +26,10 @@ def setRandomSeed(newRandSeed):
     randSeed = newRandSeed
     random.seed(randSeed) ## Seeding the random number generator.
 
+def createRandomStandardUniformMatrix(numDimensions, numRealizations):
+    ''' Creates a uniformly distributed matrix. Keeping just for backward compatability'''
+    return random.uniform(size=(numDimensions, numRealizations))
+
 def eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples, numToAverage = numToAverage):
     ''' Eliminating realizations using average distance measure to give Strata '''
 

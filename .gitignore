@@ -8,3 +8,5 @@ Compiled python modules.
 /lhsmdu.egg-info/
 # Python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
+/.ipynb_checkpoints/
+/benchmark/.ipynb_checkpoints/

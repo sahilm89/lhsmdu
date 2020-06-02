@@ -9,7 +9,7 @@
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 from numpy.linalg import norm
-from numpy import random, matrix, zeros, triu_indices, sum, sort, argsort, ravel, max, min as minimum, mean, argpartition 
+from numpy import array, random, matrix, zeros, triu_indices, sum, sort, argsort, ravel, max, min as minimum, mean, argpartition 
 from scipy.stats import rv_continuous, rv_discrete
 from scipy.stats.distributions import rv_frozen
 from scipy.spatial.distance import pdist, squareform
@@ -42,7 +42,7 @@ def eliminateRealizationsToStrata(distance_1D, matrixOfRealizations, numSamples,
     averageDistance = {i:0 for i in range(numRealizations)}
 
     while(len(averageDistance)>numSamples):
-        realizations = sort(averageDistance.keys())
+        realizations = array(sorted(averageDistance.keys())) # Not a neat implementation, but Python3 compatible
         for rowNum in realizations:
             idx = realizations[argpartition(distMatrix[rowNum, realizations], numToAverage-1)[:numToAverage]] # Argpartition kth is numToAverage-1 because it is the index of the in-position sorted sequence (which starts at 0.
             meanAvgDist = mean(distMatrix[rowNum, idx])

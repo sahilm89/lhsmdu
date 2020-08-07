@@ -127,5 +127,4 @@ After uniformly distributed samples have been generated from LHSMDU, you can con
 
 Citing this repository
 =======================
-To cite, please cite both the original paper from Deutsch and Deutsch: http://dx.doi.org/10.1016%2Fj.jspi.2011.09.016.
-and the repository using **DOI** 10.5281/zenodo.2578780
+To cite, please cite both the repository using **DOI** https://dx.doi.org/10.5281/zenodo.2578780 and the original paper from Deutsch and Deutsch: http://dx.doi.org/10.1016%2Fj.jspi.2011.09.016.
